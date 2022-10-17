@@ -23,6 +23,9 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
  function getDNSStats(domains) {
+  if (domains.length == 0) {
+    return {};
+  }
   let newArray = domains.map((e) => {
  return e.split('.');
  }).map((e) => {
@@ -34,19 +37,20 @@ const { NotImplementedError } = require('../extensions/index.js');
 acc[el] = (acc[el] || 0) + 1;
 return acc;
 }, {});
-  let string = '';
  let c = Object.keys(newArray).map((key) => [key, newArray[key]]);
-    for (let i = 0; i < c.length; i++) {
-      if (i = 0) {
-        string = c[i][0];
-      } else if (c[i][1] > 1) {
-        string += c[i][0];
-        c[i][0] = string;
-      } else {
-      	c[i][0] = string + c[i][0];
-      } 
-    }
- return Object.fromEntries(c);
+ let string = c[0][0];
+ console.log(string);
+ for (let i = 1; i < c.length; i++) {
+   console.log(c[i][0]);
+   if (c[i][1] > 1) {
+     string += c[i][0];
+     c[i][0] = string;
+   } else {
+     c[i][0] = string + c[i][0];
+   } 
+ }
+ let b = Object.fromEntries(c);
+ return b;
 }
 
 module.exports = {
